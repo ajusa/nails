@@ -30,19 +30,6 @@ template wire*(module: untyped, meth: untyped): untyped =
           let tmp = module.meth(req)
         else:
           module.meth(req)
-      # const templatePath = getScriptDir() / "views" / (astToStr module) / ((astToStr meth) & ".html")
-      # when fileExists(templatePath):
-      #   when compiles(tmp):
-      #     with tmp: 
-      #       let resp = tmpls(templatePath)
-      #       if not req.responded:
-      #         req.respond(response.code, response.headers, resp)
-      #   else:
-      #     let resp = tmpls(templatePath)
-      #     if not req.responded:
-      #       req.respond(response.code, response.headers, resp)
-      # if not req.responded:
-      #   echo "Error! No template specified at " & templatePath & " and controller did not respond"
       when compiles(tmp.meth):
         let resp = tmp.meth
         if not req.responded:
