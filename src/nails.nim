@@ -39,3 +39,15 @@ template wire*(module: untyped, meth: untyped): untyped =
         if not req.responded:
           req.respond(response.code, response.headers, resp)
     handler
+
+template renderWith*(meth, render: untyped): untyped =
+  block:
+    proc handler(req: Request) =
+      var headers: HttpHeaders
+      headers["Content-Type"] = "text/html"
+      var response = Response(headers: headers, code: 200)
+      let tmp = meth(req)
+      if not res.responded:
+        let resp = tmp.render()
+        req.respond(response.code, response.headers, resp)
+    handler
